@@ -52,6 +52,7 @@ use std::fs::read;
 
 let hello_wasm = read("hello.wasm").expect("wasm file");
 
+Module::validate(&store.borrow(), &hello_wasm)?;
 let module = HostRef::new(Module::new(&store, &hello_wasm).expect("wasm module"));
 ```
 

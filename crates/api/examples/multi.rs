@@ -55,6 +55,7 @@ fn main() -> Result<()> {
 
     // Compile.
     println!("Compiling module...");
+    Module::validate(&store.borrow(), &binary)?;
     let module = HostRef::new(Module::new(&store, &binary).context("Error compiling module!")?);
 
     // Create external print functions.

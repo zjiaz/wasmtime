@@ -333,6 +333,7 @@ fn instantiate_module(
     // Read the wasm module binary either as `*.wat` or a raw binary
     let data = wat::parse_file(path.to_path_buf())?;
 
+    Module::validate(&store.borrow(), &data)?;
     let module = HostRef::new(Module::new(store, &data)?);
 
     // Resolve import using module_registry.

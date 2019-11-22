@@ -36,6 +36,7 @@ fn main() -> Result<()> {
 
     // Compiler the `*.wasm` binary into an in-memory instance of a `Module`.
     println!("Compiling module...");
+    Module::validate(&store.borrow(), &binary)?;
     let module = HostRef::new(Module::new(&store, &binary).context("> Error compiling module!")?);
 
     // Here we handle the imports of the module, which in this case is our

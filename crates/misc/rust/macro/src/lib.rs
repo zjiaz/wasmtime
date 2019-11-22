@@ -62,6 +62,7 @@ fn generate_load(item: &syn::ItemTrait) -> syn::Result<TokenStream> {
 
             let data = #root::wasmtime_interface_types::ModuleData::new(&bytes)?;
 
+            Module::validate(&store.borrow(), &bytes)?;
             let module = HostRef::new(Module::new(&store, &bytes)?);
 
             let mut imports: Vec<Extern> = Vec::new();

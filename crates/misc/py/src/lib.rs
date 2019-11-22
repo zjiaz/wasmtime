@@ -95,6 +95,7 @@ pub fn instantiate(
     let engine = wasmtime::HostRef::new(wasmtime::Engine::new(&config));
     let store = wasmtime::HostRef::new(wasmtime::Store::new(&engine));
 
+    Module::validate(&store.borrow(), &wasm_data)?;
     let module = wasmtime::HostRef::new(wasmtime::Module::new(&store, wasm_data).map_err(err2py)?);
 
     let data = Rc::new(ModuleData::new(wasm_data).map_err(err2py)?);

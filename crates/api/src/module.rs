@@ -4,7 +4,7 @@ use crate::types::{
     ExportType, ExternType, FuncType, GlobalType, ImportType, Limits, MemoryType, Mutability,
     TableType, ValType,
 };
-use anyhow::Result;
+use anyhow::{Error, Result};
 use wasmparser::{validate, ExternalKind, ImportSectionEntryType, ModuleReader, SectionCode};
 
 fn into_memory_type(mt: wasmparser::MemoryType) -> MemoryType {
@@ -199,8 +199,8 @@ impl Module {
             _ => None,
         }
     }
-    pub fn validate(_store: &Store, binary: &[u8]) -> bool {
-        validate(binary, None).is_ok()
+    pub fn validate(_store: &Store, binary: &[u8]) -> Result<()> {
+        validate(binary, None).map_err(|e| Error::new(e))
     }
     pub fn imports(&self) -> &[ImportType] {
         &self.imports

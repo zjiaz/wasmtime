@@ -88,6 +88,7 @@ fn main() -> Result<(), Error> {
 
     // Compile.
     println!("Compiling module...");
+    Module::validate(&store.borrow(), &binary)?;
     let module = HostRef::new(Module::new(&store, &binary).context("> Error compiling module!")?);
 
     // Instantiate.

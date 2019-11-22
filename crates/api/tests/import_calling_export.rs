@@ -35,6 +35,7 @@ fn test_import_calling_export() {
     let engine = HostRef::new(Engine::default());
     let store = HostRef::new(Store::new(&engine));
     let wasm = wat::parse_str(WAT).unwrap();
+    Module::validate(&store.borrow(), &wasm).expect("failed to validate module");
     let module = HostRef::new(Module::new(&store, &wasm).expect("failed to create module"));
 
     let callback = Rc::new(Callback {

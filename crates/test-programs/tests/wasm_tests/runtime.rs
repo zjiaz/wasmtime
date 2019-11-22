@@ -62,6 +62,7 @@ pub fn instantiate(data: &[u8], bin_name: &str, workspace: Option<&Path>) -> any
         ),
     );
 
+    Module::validate(&store.borrow(), &data)?;
     let module = HostRef::new(Module::new(&store, &data).context("failed to create wasm module")?);
     let imports = module
         .borrow()
