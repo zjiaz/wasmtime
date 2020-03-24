@@ -66,12 +66,6 @@ RUST_BACKTRACE=1 cargo test \
   --package wiggle-test \
   --package wasi-common \
 
-# Test wasmtime-wasi-c, which doesn't support Windows.
-if [ "${OS:-Not}" != "Windows_NT" ]; then
-    RUST_BACKTRACE=1 cargo test \
-      --package wasmtime-wasi-c
-fi
-
 # Make sure the documentation builds.
 banner "Rust documentation: $topdir/target/doc/wasmtime/index.html"
 cargo doc
@@ -80,18 +74,17 @@ cargo doc
 # Note LSAN is disabled due to https://github.com/google/sanitizers/issues/764
 banner "cargo fuzz check"
 if rustup toolchain list | grep -q nightly; then
-    # Temporarily disable fuzz tests until https://github.com/bytecodealliance/cranelift/issues/1216 is resolved
-    #if cargo install --list | grep -q cargo-fuzz; then
-    #    echo "cargo-fuzz found"
-    #else
-    #    echo "installing cargo-fuzz"
-    #    cargo +nightly install cargo-fuzz
-    #fi
+    if cargo install --list | grep -q cargo-fuzz; then
+        echo "cargo-fuzz found"
+    else
+        echo "installing cargo-fuzz"
+        cargo +nightly install cargo-fuzz
+    fi
 
-    #fuzz_module="1340712d77d3db3c79b4b0c1494df18615485480"
-    #ASAN_OPTIONS=detect_leaks=0 \
-    #cargo +nightly fuzz run compile \
-    #    "$topdir/fuzz/corpus/compile/$fuzz_module"
+    fuzz_module="1340712d77d3db3c79b4b0c1494df18615485480"
+    ASAN_OPTIONS=detect_leaks=0 \
+    cargo +nightly fuzz run compile \
+        "$topdir/fuzz/corpus/compile/$fuzz_module"
 
     # Nightly is available, so also run lightbeam's tests, which we
     # skipped earlier.
