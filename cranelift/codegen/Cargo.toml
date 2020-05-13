@@ -65,12 +65,14 @@ arm64 = []
 riscv = []
 x64 = [] # New work-in-progress codegen backend for x86_64 based on the new isel.
 arm32 = [] # Work-in-progress codegen backend for ARM.
+mips64 = []
 
 # Option to enable all architectures.
 all-arch = [
     "x86",
     "arm64",
-    "riscv"
+    "riscv",
+    "mips64"
 ]
 
 # For dependent crates that want to serialize some parts of cranelift

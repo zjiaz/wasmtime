@@ -60,6 +60,8 @@ pub enum Reloc {
     Arm64Call,
     /// RISC-V call target
     RiscvCall,
+    /// mips64 call target
+    Mips64Call,
 
     /// Elf x86_64 32 bit signed PC relative offset to two GOT entries for GD symbol.
     ElfX86_64TlsGd,
@@ -80,7 +82,7 @@ impl fmt::Display for Reloc {
             Self::X86CallPCRel4 => write!(f, "CallPCRel4"),
             Self::X86CallPLTRel4 => write!(f, "CallPLTRel4"),
             Self::X86GOTPCRel4 => write!(f, "GOTPCRel4"),
-            Self::Arm32Call | Self::Arm64Call | Self::RiscvCall => write!(f, "Call"),
+            Self::Arm32Call | Self::Arm64Call | Self::RiscvCall | Self::Mips64Call => write!(f, "Call"),
 
             Self::ElfX86_64TlsGd => write!(f, "ElfX86_64TlsGd"),
             Self::MachOX86_64Tlv => write!(f, "MachOX86_64Tlv"),

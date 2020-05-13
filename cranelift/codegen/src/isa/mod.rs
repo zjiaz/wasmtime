@@ -90,6 +90,9 @@ pub(crate) mod aarch64;
 #[cfg(feature = "unwind")]
 pub mod unwind;
 
+#[cfg(feature = "mips64")]
+mod mips64;
+
 mod call_conv;
 mod constraints;
 mod enc_tables;
@@ -131,6 +134,7 @@ pub fn lookup(triple: Triple) -> Result<Builder, LookupError> {
         }
         Architecture::Arm { .. } => isa_builder!(arm32, "arm32", triple),
         Architecture::Aarch64 { .. } => isa_builder!(aarch64, "arm64", triple),
+        Architecture::Mips64 | Architecture::Mips64el => isa_builder!(mips64, "mips64", triple),
         _ => Err(LookupError::Unsupported),
     }
 }
